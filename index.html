@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Noora's Portfolio</title>
+  <style>
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      padding-top: 80px;
+    }
+
+    /* Navbar */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #222;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* Section titles */
+    section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      color: #222;
+      font-size: 26px;
+    }
+
+    .section-description {
+      color: #555;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    /* Video Gallery */
+    .video-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      padding: 0 10px;
+    }
+
+    .video-gallery iframe {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      aspect-ratio: 16/9;
+    }
+
+    .shorts iframe {
+      aspect-ratio: 9/16;
+    }
+
+    /* Portrait Shorts 特别布局：桌面端一行四个 */
+    .shorts {
+      display: grid;
+      gap: 24px;
+      padding: 0 10px;
+    }
+
+    /* 默认 mobile 优先布局（自适应） */
+    .shorts {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 20px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+
+      .section-description {
+        font-size: 14px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .shorts {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation Bar -->
+  <header>
+    <h1>Noora's Portfolio</h1>
+  </header>
+
+  <!-- Landscape Section -->
+  <section>
+    <h2>Landscape Videos</h2>
+    <p class="section-description">
+      These videos are shot in landscape orientation for platforms like YouTube and WeChat.
+    </p>
+    <div class="video-gallery" id="landscape-videos"></div>
+  </section>
+
+  <!-- Portrait Section -->
+  <section>
+    <h2>Portrait Shorts</h2>
+    <p class="section-description">
+      These are vertical videos created for short-form platforms like YouTube Shorts.
+    </p>
+    <div class="video-gallery shorts" id="portrait-videos"></div>
+  </section>
+
+  <script>
+    const landscapeVideos = [
+      "https://youtu.be/ghOct8-Fy3A",
+      "https://youtu.be/eJsyUA6qrkk",
+      "https://youtu.be/c2diWI-_F_s",
+      "https://youtu.be/6hyHji5L8wA",
+      "https://youtu.be/J1UPgfO30xw",
+      "https://youtu.be/9DfnPn061fU"
+    ];
+
+    const portraitVideos = [
+      "https://youtube.com/shorts/SjHgeKS_B_w",
+      "https://youtube.com/shorts/JdWaIJ9-QDo",
+      "https://youtube.com/shorts/2Pq7OMGopx4",
+      "https://youtube.com/shorts/ztph9ldeRj0"
+    ];
+
+    function convertToEmbed(url) {
+      if (url.includes("shorts")) {
+        return url.replace("/shorts/", "/embed/");
+      } else {
+        const id = url.split("v=")[1] || url.split("/").pop();
+        return `https://www.youtube.com/embed/${id}`;
+      }
+    }
+
+    function loadVideos(videoArray, containerId) {
+      const container = document.getElementById(containerId);
+      videoArray.forEach(url => {
+        const iframe = document.createElement("iframe");
+        iframe.src = convertToEmbed(url);
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+        container.appendChild(iframe);
+      });
+    }
+
+    loadVideos(landscapeVideos, "landscape-videos");
+    loadVideos(portraitVideos, "portrait-videos");
+  </script>
+</body>
+
+</html>
